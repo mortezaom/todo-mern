@@ -95,6 +95,23 @@ describe("Tasks Routes", () => {
 		expect(response.body.title).toBe("task title updated");
 	});
 
+	it("should re order the tasks", async () => {
+		const orders = [taskList[1].order, taskList[0].order];
+		const response = await request(server)
+			.put("/api/v1/tasks/reorder")
+			.set("Authorization", `Bearer ${token}`)
+			.send({
+				tasks: [
+					{ ...taskList[0], order: orders[0] },
+					{ ...taskList[1], order: orders[1] },
+				],
+			});
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("tasks");
+		expect(response.body.tasks[0].order).toBe(orders[0]);
+		expect(response.body.tasks[1].order).toBe(orders[1]);
+	});
+
 	it("should mark task as completed", async () => {
 		const response = await request(server)
 			.put(`/api/v1/tasks/${taskList[0].uuid}`)
