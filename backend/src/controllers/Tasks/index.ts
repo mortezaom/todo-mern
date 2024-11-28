@@ -1,0 +1,6 @@
+export * from "./update.controller"
+export * from "./delete.controller"
+export * from "./getAll.controller"
+export * from "./create.controller"
+export * from "./getOne.controller"
+export * from "./reorder.controller"
