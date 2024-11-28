@@ -13,7 +13,7 @@ const loginHandler = async (req, res) => {
 	const compare = await comparePassword(password, findUser.password);
 	if (!compare) return returnError(res, "Invalid Password!");
 	const token = generateToken(findUser.uuid);
-	return res.json({ token }).status(httpStatus.ACCEPTED);
+	return res.status(httpStatus.ACCEPTED).json({ token });
 };
 
 const returnError = (res, message) => {

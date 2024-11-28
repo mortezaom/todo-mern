@@ -7,8 +7,8 @@ import { errorResponse } from "../../utils/errorResponse";
 const getSingleHandler = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const user = await tasksService.getOneTask({ id });
-		return res.status(httpStatus.OK).json({ user });
+		const task = await tasksService.getOneTask({ id });
+		return res.status(httpStatus.OK).json(task);
 	} catch (error) {
 		return res
 			.status(httpStatus.INTERNAL_SERVER_ERROR)

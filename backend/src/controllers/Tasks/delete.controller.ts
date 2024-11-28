@@ -7,7 +7,7 @@ const deleteHandler = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const task = await tasksService.deleteTask({ id });
-		return res.status(httpStatus.OK).json({ task });
+		return res.status(httpStatus.OK).json(task);
 	} catch (error) {
 		return res
 			.status(httpStatus.INTERNAL_SERVER_ERROR)

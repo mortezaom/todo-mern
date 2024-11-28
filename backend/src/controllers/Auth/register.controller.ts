@@ -11,7 +11,7 @@ const registerHandler = async (req, res) => {
     email,
     password: hashPassword,
   });
-  res.json({ user }).status(httpStatus.CREATED);
+  res.status(httpStatus.CREATED).json({ user });
 };
 
 export const registerController = errorHandlerWrapper(registerHandler);

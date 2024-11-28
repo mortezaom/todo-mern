@@ -1,8 +1,8 @@
-import { AppDataSouce } from "../db";
+import { AppDataSource } from "../db";
 import { TaskEntity } from "../entities/task.entity";
 
 export const createTask = async (data) => {
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
 	const task = taskRepository.create(data);
 	await taskRepository.save(task);
 	return task;
@@ -10,13 +10,13 @@ export const createTask = async (data) => {
 
 export const getOneTask = async (data) => {
 	const { id } = data;
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
-	const task = await taskRepository.findOne(id);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
+	const task = await taskRepository.findOneBy({uuid: id});
 	return task;
 };
 
 export const getAllTasks = async (page, limit) => {
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
 	const tasks = await taskRepository.find({
 		skip: (page - 1) * limit,
 		take: limit,
@@ -29,7 +29,7 @@ export const getAllTasks = async (page, limit) => {
 
 export const updateTask = async (data) => {
 	const { id, title, description, isCompleted } = data;
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
 	const task = await taskRepository.findOneBy({ uuid: id });
 	if (title) task.title = title;
 	if (description) task.description = description;
@@ -40,7 +40,7 @@ export const updateTask = async (data) => {
 
 export const deleteTask = async (data) => {
 	const { id } = data;
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
 	const task = await taskRepository.findOneBy({ uuid: id });
 	await taskRepository.remove(task);
 	return task;
@@ -48,14 +48,14 @@ export const deleteTask = async (data) => {
 
 export const reorderTasks = async (data) => {
 	const { tasks } = data;
-	const taskRepository = AppDataSouce.getRepository(TaskEntity);
+	const taskRepository = AppDataSource.getRepository(TaskEntity);
 	await taskRepository.save(tasks);
 	return tasks;
 };
 
 export const getLastOrder = async (userId: string) => {
 	try {
-		const taskRepository = AppDataSouce.getRepository(TaskEntity);
+		const taskRepository = AppDataSource.getRepository(TaskEntity);
 		const maxOrder = await taskRepository
 			.createQueryBuilder("tasks")
 			.where("tasks.user_id = :userId", { userId })
